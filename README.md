@@ -50,6 +50,6 @@ A real-time chat application that enables multiple users to send and receive mes
 2. Sign up or log in
 
 ## Project Structure
-- `index.html` - Main application entry point
-- `css/` - Styling files
-- `js/` - JavaScript functionality
+- `index.html`
+- `css/`
+- `js/`
