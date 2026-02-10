@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+.banner {
+    background: linear-gradient(to bottom, #0037ff, #3281e9);
+    height: 20vh;
+    color: white;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 5%;
+}
+
+.banner button {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    height: 3rem;
+    width: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    /* Animation */
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: white;
+}
+
+.banner button:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+
+.home-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    background-color: #f5f5f5;
+    margin-left: 35%;
+}
+
+.contact-list {
+    background: linear-gradient(to bottom, #3281e9, #0037ff);
+    display: flex;
+    flex-direction: column;    
+    align-items: center;   
+    
+    overflow-y: auto; 
+    
+    justify-content: flex-start; 
+    padding: 20px 0;
+    gap: 15px;
+
+    position: absolute;
+    left: 0;
+    width: 35%;
+    height: 100%;
+}
+
+
+.contact {
+    background-color: rgb(205, 212, 219);
+    width: 90%;
+    
+    min-height: 80px; 
+    
+    display: flex;
+    align-items: center; 
+    border-radius: 20px;
+    flex-shrink: 0; 
+}
+
+
+
+.contact:hover{
+    background-color: rgb(205, 212, 219);
+    width: 90%;
+    height: 20%;
+    transform: scale(1.01);
+    transition: transform 0.3s ease;
+    border: 2px solid blue;
+    cursor: pointer;
+}
+
+.contact h3{
+    margin-left: 20px;
+    font-size: 1.5rem;
+    color: black;
+
+}
+
+.imgFrame{
+    border-radius: 50%;
+    width: 25%;
+    height: 75%;
+    background-color: black;
+    float: left;
+}
+
+.imgFrame img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
