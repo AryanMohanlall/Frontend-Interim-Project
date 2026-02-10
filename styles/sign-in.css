@@ -102,6 +102,21 @@ button:active{
     margin-top: 10px;
 }
 
+.alert-modal{
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: clamp(1rem, 2vw, 1.2em);
+    text-align: center;
+    display: none;
+    z-index: 1000;
+}
 
 @media (max-width: 768px) {
     .background{
