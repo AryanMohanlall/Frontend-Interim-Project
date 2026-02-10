@@ -1,11 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 *{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Inter', sans-serif;
 }
 
 .background{
     background: linear-gradient(to bottom, #003cc7, #143059);
+    background-image: url("../assets/images/artistic-blurry-colorful-wallpaper-background.jpg");
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -18,23 +22,27 @@
 
 .title{
     color: white;
-    font-size: 7em;
+    font-size: clamp(2rem, 8vw, 7em);
     font-weight: bold;
     margin-bottom: 20px;
+    padding: 0 20px;
+    text-align: center;
 }
 
 .instruction{
     color: white;
-    font-size: 3.5em;
+    font-size: clamp(1.5rem, 5vw, 3.5em);
     margin-bottom: 40px;
+    text-align: center;
 }
 
 .sign-in-panel{
     background-color: rgba(255, 255, 255, 0.8);
-    padding: 40px;
+    padding: clamp(20px, 5vw, 40px);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 50%;
+    width: 90%;
+    max-width: 400px;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -44,38 +52,76 @@
 
 input{
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
+    padding: clamp(8px, 2.5vw, 12px);
+    margin: clamp(8px, 2vw, 10px) 0;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 1em;
+    font-size: clamp(0.9rem, 2vw, 1em);
     background-color: black;
     color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+input:focus{
+    outline: none;
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 button{
     width: 100%;
-    padding: 10px;
-    margin-top: 20px;
+    padding: clamp(10px, 3vw, 15px);
+    margin-top: clamp(15px, 3vw, 20px);
     border-width: 3px;
     border-color: transparent;
     border-radius: 5px;
     background-color: #007BFF;
     color: white;
-    font-size: 1.2em;
+    font-size: clamp(1rem, 2vw, 1.2em);
     cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    min-height: 44px;
 }
 
 button:hover{
-    background-color: white;
-    color:  #007BFF;
-    border-color:  #007BFF;
+    background-color: #ffffff;
+    color: #003cc7;
+    border-color: #007BFF;
     border-style: solid;
     border-width: 3px;
 }
 
+button:active{
+    transform: scale(0.98);
+}
+
 .errorLabel{
     color: red;
-    font-size: 1em;
+    font-size: clamp(0.85rem, 2vw, 1em);
     margin-top: 10px;
+}
+
+
+@media (max-width: 768px) {
+    .background{
+        padding: 20px;
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .sign-in-panel{
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .sign-in-panel{
+        width: 100%;
+        padding: 20px;
+    }
+    
+    input, button{
+        font-size: 16px;
+    }
 }
