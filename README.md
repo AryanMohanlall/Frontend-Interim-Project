@@ -51,5 +51,8 @@ A real-time chat application that enables multiple users to send and receive mes
 
 ## Project Structure
 - `index.html`
-- `css/`
+- `assets/icons`
+- `assets/images`
 - `js/`
+- `pages/`
+- `styles/`
