@@ -197,3 +197,17 @@ const sendMessage = ()=>{
             messageInput.value = '';
         }
 }
+
+
+const closeModal = ()=>{
+    document.querySelector('.modal').style.display = 'none';
+}
+
+const openModal = ()=>{
+    document.querySelector('.modal').style.display = 'flex';
+}
+
+const handleSignOut = ()=>{
+    sessionStorage.clear();
+    window.location.href = 'sign-in.html';
+}
