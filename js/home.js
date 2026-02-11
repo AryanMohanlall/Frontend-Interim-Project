@@ -12,31 +12,34 @@ addEventListener('storage', (event)=>{
 })
 
 const createContactCards = async () => {
-    const data = await fetch('../db/users.json');
-    const users = await data.json();
-    
-    for(let u in users.users) {
+    try {
+        const data = await fetch('../db/users.json');
+        const users = await data.json();
         const contactList = document.querySelector('.contact-list');
         
-        const newContact = document.createElement('div'); 
-        newContact.classList.add('contact');
-        newContact.id = users.users[u].username;
-        
-        newContact.onclick = function() { populateChatArea(this) }; 
+        for(const user of users.users) {
+            const newContact = document.createElement('div'); 
+            newContact.classList.add('contact');
+            newContact.id = user.username;
+            
+            newContact.onclick = function() { populateChatArea(this) }; 
 
-        const imgFrame = document.createElement('div');
-        imgFrame.classList.add('imgFrame');
-        const img = document.createElement('img');
-        img.src = '../assets/images/default-profile.jpg';
-        imgFrame.appendChild(img);
-        
-        newContact.appendChild(imgFrame);
-        
-        const h3 = document.createElement('h3');
-        h3.textContent = users.users[u].username;
-        newContact.appendChild(h3);
-        
-        contactList.appendChild(newContact);
+            const imgFrame = document.createElement('div');
+            imgFrame.classList.add('imgFrame');
+            const img = document.createElement('img');
+            img.src = '../assets/images/default-profile.jpg';
+            imgFrame.appendChild(img);
+            
+            newContact.appendChild(imgFrame);
+            
+            const h3 = document.createElement('h3');
+            h3.textContent = user.username;
+            newContact.appendChild(h3);
+            
+            contactList.appendChild(newContact);
+        }
+    } catch(error) {
+        console.error('Error loading contacts:', error);
     }
 }
 
@@ -134,14 +137,14 @@ const populateChatArea = (contact) => {
         }
 
     }else{
+        const message = {
+            label:chatTitle.textContent,
+            content:"",
+            timestamp:new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
         localStorage.setItem(chatID, JSON.stringify({
-            messages:[
-            message={
-                label:chatTitle.textContent,
-                content:"",
-                timestamp:new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            }
-        ]}));
+            messages:[message]
+        }));
     }
 
 }
@@ -159,7 +162,7 @@ const createChat = (chatID)=>{
             localStorage.setItem(chatID, JSON.stringify({
             messages:[
             message={
-                label:chatTitle.textContent,
+                label:"",
                 content:"",
                 timestamp:new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             }
