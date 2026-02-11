@@ -5,11 +5,42 @@ if(!sessionStorage.getItem('isLoggedIn')){
 addEventListener('DOMContentLoaded', ()=>{
     document.getElementById('banner-title').textContent = sessionStorage.getItem('currentUsername');
     createContactCards();
+
+    const onlineUsers = JSON.parse(localStorage.getItem('online') || '[]');
+
+    const currentUser = sessionStorage.getItem('currentUsername');
+
+    if (currentUser && !onlineUsers.includes(currentUser)) {
+        onlineUsers.push(currentUser);
+    }
+
+    localStorage.setItem('online', JSON.stringify(onlineUsers));
 });
 
 addEventListener('storage', (event)=>{
     populateChatArea(document.querySelector('.chat-header h3'));
+    updateOnlineUsers();
 })
+
+const updateOnlineUsers = () => {
+    const onlineUsers = JSON.parse(localStorage.getItem('online') || '[]');
+    
+    const contacts = document.querySelectorAll('.contact-list .contact');
+
+    contacts.forEach(contact => {
+        const contactId = contact.id;
+        const imgFrame = contact.querySelector('.imgFrame');
+
+        if (onlineUsers.includes(contactId)) {
+            console.log(contactId + " is online");
+            imgFrame.style.border = '2px solid green';
+        } else {
+            imgFrame.style.border = 'none';
+        }
+    });
+}
+
+
 
 const createContactCards = async () => {
     try {
@@ -35,7 +66,8 @@ const createContactCards = async () => {
             const h3 = document.createElement('h3');
             h3.textContent = user.username;
             newContact.appendChild(h3);
-            
+
+            const chatPreview = document.createElement('p');
             contactList.appendChild(newContact);
         }
     } catch(error) {
