@@ -1,6 +1,5 @@
 const username = document.getElementById('username');
 const password = document.getElementById('password');
-const signInButton = document.getElementById('sign-in-button');
 const errorLabel = document.querySelector('.errorLabel');
 
 
@@ -11,8 +10,22 @@ const handleSignIn = async ()=>{
     errorLabel.textContent += (passwordValue === '' ? ' Password cannot be empty' : "");
 
     if(usernameValue !== '' && passwordValue !== ''){
-        const data = await fetch("../db/users.json");
-        const users = await data.json();
+        let users = null;
+        try {
+            const res = await fetch("../db/users.json");
+            if(!res.ok){
+                throw new Error(`Failed to fetch users.json: ${res.status} ${res.statusText}`);
+            }
+            users = await res.json();
+            if(!users || !Array.isArray(users.users)){
+                throw new Error('Invalid users data format');
+            }
+        } catch (err) {
+            console.error('Error loading users data:', err);
+            errorLabel.textContent = 'Unable to sign in right now. Please try again later.';
+            return;
+        }
+
         const user = users.users.find(u => u.username === usernameValue);
         if(user || localStorage.getItem(usernameValue)){
             const storedPassword = user ? user.password : localStorage.getItem(usernameValue);
