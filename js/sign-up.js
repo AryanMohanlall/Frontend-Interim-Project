@@ -15,12 +15,17 @@ const handleSignUp = async()=>{
     errorLabel.textContent += (passwordValue === '' ? ' Password cannot be empty' : "");
 
     if(usernameValue !== '' && passwordValue !== ''){
-        const user = localStorage.getItem(usernameValue);
+        const data = await fetch("../db/users.json");
+        const users = await data.json();
+
+        const user = users.users.some(u => u.username === usernameValue);
+        console.log(user);
+
         if(user){
             errorLabel.textContent = 'Username already exists';
-        } else {
+        }else{
             localStorage.setItem(usernameValue, passwordValue);
-            document.querySelector('.alert-modal').style.display = 'block';
+            alert("Sign up successful! You may sign in");
             window.location.href = 'sign-in.html';
         }
     }
