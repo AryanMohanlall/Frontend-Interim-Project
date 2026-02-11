@@ -93,6 +93,26 @@ const addReceiverMessage = (message)=>{
 }
 
 const populateChatArea = (contact) => {
+
+    // Handle reponsiveness
+    if(screen.width <= 768){
+        document.querySelector('.contact-list').style.display = 'none';
+        document.querySelector('.chat-area').style.width = '100%';
+        document.querySelector('.message-box').style.width = '85%';
+        document.querySelector('.message-box').style.marginLeft = '0%'
+        document.querySelector('.chat-header .imgFrame').style.width = '10%';
+        document.querySelector('.chat-header .imgFrame').style.height = '40%';   
+    }
+
+    if(screen.width <= 480){
+        document.querySelector('.contact-list').style.display = 'none';
+        document.querySelector('.chat-area').style.width = '100%';
+        document.querySelector('.message-box').style.width = '85%';
+        document.querySelector('.message-box').style.marginLeft = '0%'
+        document.querySelector('.chat-header .imgFrame').style.width = '20%';   
+        document.querySelector('.chat-header .imgFrame').style.height = '50%';   
+    }
+
     document.querySelector('.message-log').replaceChildren();
 
     sessionStorage.setItem('currentChat', contact.id ? contact.id : sessionStorage.getItem('currentChat'));
