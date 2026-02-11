@@ -7,7 +7,9 @@ addEventListener('DOMContentLoaded', ()=>{
     createContactCards();
 });
 
-
+addEventListener('storage', (event)=>{
+    populateChatArea(document.querySelector('.chat-header h3'));
+})
 
 const createContactCards = async () => {
     const data = await fetch('../db/users.json');
@@ -125,11 +127,9 @@ const populateChatArea = (contact) => {
 }
 
 const getChatID = (str) => {
-    const users = str.toLowerCase().split(' ');
-    
-    users.sort();
-    
-    const chatId = users.join('_');
+    console.log(str);
+        
+    const chatId = str.split('').sort().join('');
     
     console.log("Created chatid: " + chatId);
     return chatId;
@@ -153,7 +153,7 @@ const addMessageToChat = (messageObj, chatID)=>{
 }
 
 const sendMessage = ()=>{
-        const chatID = getChatID(sessionStorage.getItem('currentUsername') + " " + sessionStorage.getItem('currentChat'));
+        const chatID = getChatID(sessionStorage.getItem('currentUsername') + sessionStorage.getItem('currentChat'));
 
         if(!localStorage.getItem(chatID)){
             createChat(chatID);
