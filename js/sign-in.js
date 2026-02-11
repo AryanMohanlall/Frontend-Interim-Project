@@ -27,12 +27,12 @@ const handleSignIn = async ()=>{
         }
 
         const user = users.users.find(u => u.username === usernameValue);
-        if(user || localStorage.getItem(usernameValue)){
-            const storedPassword = user ? user.password : localStorage.getItem(usernameValue);
+        if(user || sessionStorage.getItem(usernameValue)){
+            const storedPassword = user ? user.password : sessionStorage.getItem(usernameValue);
             if(storedPassword === passwordValue){
-                localStorage.setItem('currentUsername', usernameValue);
-                localStorage.setItem('currentPassword', passwordValue);
-                localStorage.setItem('isLoggedIn', true);
+                sessionStorage.setItem('currentUsername', usernameValue);
+                sessionStorage.setItem('currentPassword', passwordValue);
+                sessionStorage.setItem('isLoggedIn', true);
 
                 window.location.href = 'home.html';
             }else{

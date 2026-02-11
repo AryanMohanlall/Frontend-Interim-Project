@@ -1,9 +1,9 @@
-if(!localStorage.getItem('isLoggedIn')){
+if(!sessionStorage.getItem('isLoggedIn')){
     window.location.href = 'sign-in.html';
 }
 
 addEventListener('DOMContentLoaded', ()=>{
-    document.getElementById('banner-title').textContent = localStorage.getItem('currentUsername');
+    document.getElementById('banner-title').textContent = sessionStorage.getItem('currentUsername');
     createContactCards();
 });
 
@@ -93,12 +93,12 @@ const addReceiverMessage = (message)=>{
 const populateChatArea = (contact) => {
     document.querySelector('.message-log').replaceChildren();
 
-    localStorage.setItem('currentChat', contact.id ? contact.id : localStorage.getItem('currentChat'));
+    sessionStorage.setItem('currentChat', contact.id ? contact.id : sessionStorage.getItem('currentChat'));
 
     const chatTitle = document.querySelector('.chat-header h3');
-    chatTitle.textContent = localStorage.getItem('currentChat');
+    chatTitle.textContent = sessionStorage.getItem('currentChat');
 
-    const chatID = getChatID(localStorage.getItem('currentUsername') + document.querySelector('.chat-header h3').textContent);
+    const chatID = getChatID(sessionStorage.getItem('currentUsername') + document.querySelector('.chat-header h3').textContent);
 
     if(localStorage.getItem(chatID)){
         const messages = JSON.parse(localStorage.getItem(chatID));
@@ -107,7 +107,7 @@ const populateChatArea = (contact) => {
         for(let m in messages.messages){
             
             if(messages.messages[m].content !== ""){
-                messages.messages[m].label !== localStorage.getItem('currentUsername') ? addSenderMessage(messages.messages[m]) : addReceiverMessage(messages.messages[m]);
+                messages.messages[m].label !== sessionStorage.getItem('currentUsername') ? addSenderMessage(messages.messages[m]) : addReceiverMessage(messages.messages[m]);
             }
         }
 
@@ -124,10 +124,15 @@ const populateChatArea = (contact) => {
 
 }
 
-const getChatID = (str)=>{
-    str = str.split(' ');
-    str.sort();
-    return str.join('');
+const getChatID = (str) => {
+    const users = str.toLowerCase().split(' ');
+    
+    users.sort();
+    
+    const chatId = users.join('_');
+    
+    console.log("Created chatid: " + chatId);
+    return chatId;
 }
 
 const createChat = (chatID)=>{
@@ -148,7 +153,7 @@ const addMessageToChat = (messageObj, chatID)=>{
 }
 
 const sendMessage = ()=>{
-        const chatID = getChatID(localStorage.getItem('currentUsername') + localStorage.getItem('currentChat'));
+        const chatID = getChatID(sessionStorage.getItem('currentUsername') + " " + sessionStorage.getItem('currentChat'));
 
         if(!localStorage.getItem(chatID)){
             createChat(chatID);
@@ -162,13 +167,13 @@ const sendMessage = ()=>{
             console.log(message);
             console.log(messages);
             const messageObj = {
-                label:localStorage.getItem('currentUsername'),
+                label:sessionStorage.getItem('currentUsername'),
                 content:message,
                 timestamp:new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             }
 
             addMessageToChat(messageObj, chatID);
-            populateChatArea(localStorage.getItem('currentChat'));
+            populateChatArea(sessionStorage.getItem('currentChat'));
             messageInput.value = '';
         }
 }
