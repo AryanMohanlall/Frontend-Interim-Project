@@ -332,14 +332,13 @@ body {
 .group-member-check {
     width: 18px;
     height: 18px;
-    accent-color: #3281e9; /* Matches your brand blue */
+    accent-color: #3281e9;
 }
 
 .modal-content h2{
     color: white;
 }
 
-/* Styling the Inputs (Group Name) */
 .modal input {
     width: 100%;
     padding: 12px 16px;
@@ -363,7 +362,6 @@ body {
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
-/* Styling the Buttons */
 .modal-content button {
     width: 100%;
     height: 3.5rem;
@@ -379,7 +377,6 @@ body {
     justify-content: center;
 }
 
-/* Primary "Create" Button */
 .modal-content button:first-of-type {
     background-color: white;
     color: #0037ff;
@@ -390,7 +387,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* Secondary "Cancel" Button */
 .modal-content button:last-of-type {
     background-color: transparent;
     color: white;
