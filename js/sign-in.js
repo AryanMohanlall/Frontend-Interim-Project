@@ -28,7 +28,7 @@ const handleSignIn = async ()=>{
 
         const user = users.users.find(u => u.username === usernameValue);
         if(user || localStorage.getItem(usernameValue)){
-            const storedPassword = user ? user.password : localStorage.getItem(usernameValue);
+            const storedPassword = user ? localStorage.getItem(usernameValue) : user.password;
             if(storedPassword === passwordValue){
                 sessionStorage.setItem('currentUsername', usernameValue);
                 sessionStorage.setItem('currentPassword', passwordValue);
