@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../js/profile.js" defer></script>
+    <link rel="stylesheet" href="../styles/profile.css">
+    <title></title>
+</head>
+<body>
+
+    <div class="modal">
+        <a href="sign-in.html">Sign Out</a>
+        <a href="home.html">Home</a>
+        <a onclick="closeModal()">Close</a>
+    </div>
+
+    <div class="banner">
+        <h1>Welcome</h1>
+        <h2 id="banner-title">username</h2>
+        <button aria-label="Menu" onclick="openModal()">
+            <strong>≡</strong>
+        </button>
+    </div>
+
+    <div class="background">
+        <div class="profile-view">
+            <div class="imgFrame">
+                <img src="https://mackenziedg.github.io/shrek/video/shrek_dark.png"
+ alt="Profile Picture">
+            </div>
+
+            <h1 id="username"></h1>
+            <label for="image-change">Enter image url to change profile picture</label>
+            <input type="url" id="image-change" name="image-change" placeholder="https://example.com/image.jpg">
+            <button onclick="changeProfileImage()">Change profile image</button>
+        </div>
+    </div>
+    
+</body>
+</html>

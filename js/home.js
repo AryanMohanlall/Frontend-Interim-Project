@@ -52,7 +52,8 @@ const createContactCards = async () => {
             const imgFrame = document.createElement('div');
             imgFrame.classList.add('imgFrame');
             const img = document.createElement('img');
-            img.src = '../assets/images/default-profile.jpg';
+            img.src = localStorage.getItem(`userImage${user.username}`) || '../assets/images/default-profile.jpg';
+            console.log(localStorage.getItem(`userImage${user.username}`));
             imgFrame.appendChild(img);
             
             newContact.appendChild(imgFrame);
