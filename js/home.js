@@ -311,7 +311,11 @@ const sendMessage = ()=>{
             }
 
             addMessageToChat(messageObj, chatID);
-            populateChatArea({ id: chatID });
+            if(groupsToggle){
+                populateChatArea({id: chatID});
+            }else{
+                populateChatArea({ id: sessionStorage.getItem('currentChat') });
+            }
             messageInput.value = '';
         }
 }
