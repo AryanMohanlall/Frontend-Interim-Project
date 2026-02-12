@@ -371,6 +371,12 @@ body {
     transform: scale(0.98);
 }
 
+#status {
+    font-size: 0.85rem;
+    color: #2ecc71;
+    font-weight: 500;
+    margin-left: 2px;
+}
 
 
 @media (max-width: 768px) {

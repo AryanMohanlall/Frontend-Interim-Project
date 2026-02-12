@@ -22,6 +22,11 @@ const updateIsTyping = ()=>{
 
     const contacts = document.querySelectorAll('.contact-list .contact');
 
+    const chatTitle = document.querySelector('.chat-header h3');
+    const chatStatus = document.getElementById(`status`);
+
+    chatStatus.innerText = localStorage.getItem(`${chatTitle.innerText}Status`);
+
     contacts.forEach((contact) => {
         let userStatus = contact.querySelector('h6');
         userStatus.innerText = localStorage.getItem(`${contact.id}Status`);
@@ -184,8 +189,12 @@ const populateChatArea = (contact) => {
 
     const chatTitle = document.querySelector('.chat-header h3');
     chatTitle.textContent = targetID;
+
+    // const chatStatus = document.getElementById("status")
     
     const currentUser = sessionStorage.getItem('currentUsername');
+
+    if(!chatTitle || chatTitle === null) document.querySelector('.chat-header').style.display = "none";
 
     if (groupsToggle) {
         // --- GROUP CHAT LOGIC ---
