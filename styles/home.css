@@ -111,6 +111,26 @@
 
 }
 
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 15px;
+}
+
+.contact-info h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.contact-info h6 {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 400;
+}
+
+
 .imgFrame{
     border-radius: 50%;
     width: 25%;
@@ -290,7 +310,7 @@
     margin: 10px;
 }
 .contact.online .imgFrame {
-    border: 2px solid green;
+    border: 3px solid green;
 }
 
 

@@ -2,6 +2,35 @@ if(!sessionStorage.getItem('isLoggedIn')){
     window.location.href = 'sign-in.html';
 }
 
+//is typing functionality
+window.addEventListener('keydown', (event) => {
+    //alert(event);
+    const currentUsername = sessionStorage.getItem('currentUsername');
+    localStorage.setItem(`${currentUsername}Status`, `${currentUsername} is typing...`);
+    updateIsTyping()
+});
+
+window.addEventListener('keyup', (event)=>{
+    const currentUsername = sessionStorage.getItem('currentUsername');
+    localStorage.setItem(`${currentUsername}Status`, "");
+    updateIsTyping()
+})
+
+
+const updateIsTyping = ()=>{
+
+    const contacts = document.querySelectorAll('.contact-list .contact');
+
+    contacts.forEach((contact) => {
+        // Access the ID (e.g., "1")
+        console.log("Contact ID:", contact.id);
+        let userStatus = contact.querySelector('h6');
+        userStatus.innerText = localStorage.getItem(`${contact.id}Status`);
+        
+    });
+}
+
+
 addEventListener('DOMContentLoaded', async ()=>{
     document.getElementById('banner-title').textContent = sessionStorage.getItem('currentUsername');
     await createContactCards();
@@ -21,6 +50,7 @@ addEventListener('DOMContentLoaded', async ()=>{
 addEventListener('storage', (event)=>{
     populateChatArea(document.querySelector('.chat-header h3'));
     updateOnlineUsers();
+    updateIsTyping();
 })
 
 const updateOnlineUsers = () => {
@@ -35,40 +65,33 @@ for (const c of onlineUsers) {
 }
 
 
-
 const createContactCards = async () => {
     try {
-        const data = await fetch('../db/users.json');
-        const users = await data.json();
+        const response = await fetch('../db/users.json');
+        const { users } = await response.json();
         const contactList = document.querySelector('.contact-list');
         
-        for(const user of users.users) {
-            const newContact = document.createElement('div'); 
-            newContact.classList.add('contact');
-            newContact.id = user.username;
+        contactList.innerHTML = users.map(user => {
+            const userImg = localStorage.getItem(`userImage${user.username}`) || '../assets/images/default-profile.jpg';
             
-            newContact.onclick = function() { populateChatArea(this) }; 
+            return `
+                <div class="contact" id="${user.username}" onclick="populateChatArea(this)">
+                    <div class="imgFrame">
+                        <img src="${userImg}" alt="${user.username}">
+                    </div>
+                    <div class="contact-info">
+                        <h3>${user.username}</h3>
+                        <h6 id="status-${user.username}"></h6>
+                    </div>
+                </div>
+            `;
+        }).join('');
 
-            const imgFrame = document.createElement('div');
-            imgFrame.classList.add('imgFrame');
-            const img = document.createElement('img');
-            img.src = localStorage.getItem(`userImage${user.username}`) || '../assets/images/default-profile.jpg';
-            console.log(localStorage.getItem(`userImage${user.username}`));
-            imgFrame.appendChild(img);
-            
-            newContact.appendChild(imgFrame);
-            
-            const h3 = document.createElement('h3');
-            h3.textContent = user.username;
-            newContact.appendChild(h3);
-
-            const chatPreview = document.createElement('p');
-            contactList.appendChild(newContact);
-        }
     } catch(error) {
         console.error('Error loading contacts:', error);
     }
 }
+
 
 const addSenderMessage = (message)=>{
     console.log(message);
