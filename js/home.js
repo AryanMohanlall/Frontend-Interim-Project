@@ -283,3 +283,81 @@ const handleSignOut = () => {
     sessionStorage.clear();
     window.location.href = 'sign-in.html';
 }
+
+
+const individualFilter = ()=>{
+    document.querySelector("#filterBtn").classList.add('active');
+    document.querySelector("#groupsBtn").classList.remove('active');
+    createContactCards();
+}
+
+
+const groupsFilter = ()=>{
+    document.querySelector("#filterBtn").classList.remove('active');
+    document.querySelector("#groupsBtn").classList.add('active');
+}
+
+const createGroupCards = ()=>{
+    
+}
+
+const saveNewGroup = () => {
+    const groupName = document.querySelector('#groupName').value.trim();
+    
+    const checkedBoxes = document.querySelectorAll('.group-member-check:checked');
+    const selectedMembers = Array.from(checkedBoxes).map(cb => cb.value);
+
+    if (!groupName) {
+        alert("Please enter a group name!");
+        return;
+    }
+    if (selectedMembers.length === 0) {
+        alert("Please select at least one member to add!");
+        return;
+    }
+
+    const newGroup = {
+        name: groupName,
+        members: [...selectedMembers, sessionStorage.getItem('currentUsername')],
+        messages:[
+            message={
+                label:"",
+                content:"",
+                timestamp:new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            }
+        ],
+        createdAt: new Date().toISOString()
+    };
+
+    let existingGroups = JSON.parse(localStorage.getItem('userGroups') || '[]');
+    existingGroups.push(newGroup);
+    localStorage.setItem('userGroups', JSON.stringify(existingGroups));
+
+    closeGroupModal(); 
+};
+
+
+const createGroup = () => {
+    document.querySelector('#createGroup').style.display = 'flex';
+
+    const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+    const currentUser = sessionStorage.getItem('currentUsername');
+
+    const selectionContainer = document.querySelector('.user-selection');
+
+    selectionContainer.innerHTML = allUsers
+        .filter(user => user !== currentUser) 
+        .map(user => `
+            <div class="user-checkbox-item">
+                <input type="checkbox" id="check-${user}" value="${user}" class="group-member-check">
+                <label for="check-${user}">${user}</label>
+            </div>
+        `).join('');
+
+    
+};
+
+
+const closeGroupModal = ()=>{
+     document.querySelector('#createGroup').style.display = 'none';
+}

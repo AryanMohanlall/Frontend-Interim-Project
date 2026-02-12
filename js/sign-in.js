@@ -33,6 +33,13 @@ const handleSignIn = async ()=>{
                 sessionStorage.setItem('currentUsername', usernameValue);
                 sessionStorage.setItem('currentPassword', passwordValue);
                 sessionStorage.setItem('isLoggedIn', true);
+                const allUsernames = users.users.map(user => user.username);
+
+                if(!allUsernames.includes(usernameValue)){
+                        allUsernames.push(usernameValue);
+                }
+
+                localStorage.setItem('allUsers', JSON.stringify(allUsernames));
 
                 window.location.href = 'home.html';
             }else{

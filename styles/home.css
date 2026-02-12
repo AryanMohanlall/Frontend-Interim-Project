@@ -267,6 +267,108 @@ body {
     border-radius: 10px;
 }
 
+.user-selection {
+    max-height: 200px;
+    overflow-y: auto;
+    margin: 15px 0;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    color: white;
+}
+
+.user-checkbox-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-checkbox-item label {
+    cursor: pointer;
+    font-size: 1rem;
+    color: white;
+}
+
+.group-member-check {
+    width: 18px;
+    height: 18px;
+    accent-color: #3281e9; /* Matches your brand blue */
+}
+
+.modal-content h2{
+    color: white;
+}
+
+/* Styling the Inputs (Group Name) */
+.modal input {
+    width: 100%;
+    padding: 12px 16px;
+    margin: 15px 0;
+    font-size: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.modal input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.modal input:focus {
+    border-color: white;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Styling the Buttons */
+.modal-content button {
+    width: 100%;
+    height: 3.5rem;
+    margin-top: 10px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Primary "Create" Button */
+.modal-content button:first-of-type {
+    background-color: white;
+    color: #0037ff;
+}
+
+.modal-content button:first-of-type:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+/* Secondary "Cancel" Button */
+.modal-content button:last-of-type {
+    background-color: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.modal-content button:last-of-type:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.modal-content button:active {
+    transform: scale(0.98);
+}
+
+
+
 @media (max-width: 768px) {
     .sidebar { width: 100%; }
     .chat-area { display: none; } 

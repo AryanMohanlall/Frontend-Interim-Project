@@ -38,6 +38,14 @@ const handleSignUp = async()=>{
             errorLabel.textContent = 'Username already exists';
         }else{
             localStorage.setItem(usernameValue, passwordValue);
+                const allUsernames = users.users.map(user => user.username);
+
+                if(!allUsernames.includes(usernameValue)){
+                        allUsernames.push(usernameValue);
+                }
+
+                localStorage.setItem('allUsers', JSON.stringify(allUsernames));
+
             alert("Sign up successful! You may sign in");
             window.location.href = 'sign-in.html';
         }

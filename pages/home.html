@@ -13,8 +13,24 @@
     <div class="modal">
         <a href="sign-in.html" onclick="handleSignOut()">Sign Out</a>
         <a href="profile.html">Profile</a>
+        <a onclick="createGroup()">Create Group</a>
         <a onclick="closeModal()">Close</a>
     </div>
+
+    <div id="createGroup" class="modal">
+    <div class="modal-content">
+        <h2>Create New Group</h2>
+        <input type="text" id="groupName" placeholder="Group Name">
+        
+        <div class="user-selection">
+
+        </div>
+
+        <button onclick="saveNewGroup()">Create Group</button>
+        <button onclick="closeGroupModal()">Cancel</button>
+    </div>
+    </div>
+
 
     <div class="banner">
         <h1>Welcome</h1>
@@ -27,8 +43,8 @@
     <div class="home-container">
         <div class="sidebar">
             <div class="filter-container">
-                <button class="filter-btn active">Individual</button>
-                <button class="filter-btn">Groups</button>
+                <button class="filter-btn active" onclick="individualFilter()" id="filterBtn">Individual</button>
+                <button class="filter-btn" onclick="groupsFilter()" id="groupsBtn">Groups</button>
             </div>
             <div class="contact-list scroll-box">
             </div>
