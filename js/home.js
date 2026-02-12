@@ -24,8 +24,11 @@ const updateIsTyping = ()=>{
 
     const chatTitle = document.querySelector('.chat-header h3');
     const chatStatus = document.getElementById(`status`);
+    const currentUsername = localStorage.getItem('currentUsername');
 
     if(!groupsToggle) chatStatus.innerText = localStorage.getItem(`${chatTitle.innerText}Status`);
+
+    if(groupsToggle) chatStatus.innerText = localStorage.getItem(`${currentUsername}Status`);
 
     contacts.forEach((contact) => {
         let userStatus = contact.querySelector('h6');
@@ -51,12 +54,23 @@ addEventListener('DOMContentLoaded', async ()=>{
     updateOnlineUsers();
 });
 
-addEventListener('storage', (event)=>{
-    populateChatArea(document.querySelector('.chat-header h3'));
+addEventListener('storage', () => {
+    const currentChat = sessionStorage.getItem('currentChat');
+
+    if (currentChat) {
+        populateChatArea({ id: currentChat });
+    }
+
     updateOnlineUsers();
     updateIsTyping();
-    createContactCards();
-})
+
+    if (!groupsToggle) {
+        createContactCards();
+    } else {
+        createGroupCards();
+    }
+});
+
 
 const updateOnlineUsers = () => {
     const onlineUsers = JSON.parse(localStorage.getItem('online') || '[]');
@@ -244,11 +258,7 @@ const getChatID = (str) => {
 const createChat = (chatID)=>{
             localStorage.setItem(chatID, JSON.stringify({
             messages:[
-            message={
-                label:"",
-                content:"",
-                timestamp:new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            }
+
         ]}));
 }
 
@@ -263,8 +273,6 @@ const addMessageToChat = (messageObj, chatID)=>{
             allGroups[groupIndex].messages.push(messageObj);
 
             localStorage.setItem('userGroups', JSON.stringify(allGroups));
-            
-            
         }
         
     }else{
@@ -293,8 +301,6 @@ const sendMessage = ()=>{
         }
 
             
-        const messages = JSON.parse(localStorage.getItem(chatID));
-
         const messageInput = document.querySelector('.message-box input');
         const message = messageInput.value.trim();
         if(message !== ''){
@@ -305,7 +311,7 @@ const sendMessage = ()=>{
             }
 
             addMessageToChat(messageObj, chatID);
-            populateChatArea(chatID);
+            populateChatArea({ id: chatID });
             messageInput.value = '';
         }
 }
@@ -392,11 +398,7 @@ const saveNewGroup = () => {
         name: groupName,
         members: [...selectedMembers, sessionStorage.getItem('currentUsername')],
         messages:[
-            message={
-                label:"",
-                content:"",
-                timestamp:new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            }
+           
         ],
         createdAt: new Date().toISOString()
     };
