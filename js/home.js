@@ -23,8 +23,6 @@ const updateIsTyping = ()=>{
     const contacts = document.querySelectorAll('.contact-list .contact');
 
     contacts.forEach((contact) => {
-        // Access the ID (e.g., "1")
-        //console.log("Contact ID:", contact.id);
         let userStatus = contact.querySelector('h6');
         userStatus.innerText = localStorage.getItem(`${contact.id}Status`);
         
@@ -52,16 +50,16 @@ addEventListener('storage', (event)=>{
     populateChatArea(document.querySelector('.chat-header h3'));
     updateOnlineUsers();
     updateIsTyping();
+    createContactCards();
 })
 
 const updateOnlineUsers = () => {
     const onlineUsers = JSON.parse(localStorage.getItem('online') || '[]');
 
-for (const c of onlineUsers) {
-    const contact = document.getElementById(c);
-    contact.classList.add('online');
-}
-
+    for (const c of onlineUsers) {
+        const contact = document.getElementById(c);
+        if(contact) contact.classList.add('online');
+    }
 
 }
 
@@ -71,34 +69,34 @@ const createContactCards = async () => {
     try {
         document.querySelector("#filterBtn").classList.add('active');
         document.querySelector("#groupsBtn").classList.remove('active');
-        const response = await fetch('../db/users.json');
-        const { users } = await response.json();
+
+        const users = JSON.parse(localStorage.getItem('allUsers') || '[]');
+
+
         const contactList = document.querySelector('.contact-list');
         
         contactList.innerHTML = users.map(user => {
-            const userImg = localStorage.getItem(`userImage${user.username}`) || '../assets/images/default-profile.jpg';
+            const userImg = localStorage.getItem(`userImage${user}`) || '../assets/images/default-profile.jpg';
             
             return `
-                <div class="contact" id="${user.username}" onclick="populateChatArea(this)">
+                <div class="contact" id="${user}" onclick="populateChatArea(this)">
                     <div class="imgFrame">
-                        <img src="${userImg}" alt="${user.username}">
+                        <img src="${userImg}" alt="${user}">
                     </div>
                     <div class="contact-info">
-                        <h3>${user.username}</h3>
-                        <h6 id="status-${user.username}"></h6>
+                        <h3>${user}</h3>
+                        <h6 id="status-${user}"></h6>
                     </div>
                 </div>
             `;
         }).join('');
         groupsToggle = false;
     } catch(error) {
-        console.error('Error loading contacts:', error);
     }
 }
 
 
 const addSenderMessage = (message)=>{
-    console.log(message);
     const messageLog = document.querySelector('.message-log');
     const messageElement = document.createElement('div');
     messageElement.classList.add('message', 'sender');
@@ -124,7 +122,6 @@ const addSenderMessage = (message)=>{
 }
 
 const addReceiverMessage = (message)=>{
-    console.log(message);
     const messageLog = document.querySelector('.message-log');
     const messageElement = document.createElement('div');
     messageElement.classList.add('message', 'receiver');
@@ -165,56 +162,8 @@ const addBackButton = () => {
     header.prepend(backBtn);
 };
 
-
-/* const populateChatArea = (contact) => {
-
-    const width = window.innerWidth;
-    const sidebar = document.querySelector('.sidebar');
-    const chatArea = document.querySelector('.chat-area');
-
-    if (width <= 768) {
-        sidebar.style.display = 'none';
-        chatArea.style.display = 'flex';
-        chatArea.style.width = '100%';
-        
-        addBackButton(); 
-    }
-
-    document.querySelector('.message-log').replaceChildren();
-
-    sessionStorage.setItem('currentChat', contact.id ? contact.id : sessionStorage.getItem('currentChat'));
-
-    const chatTitle = document.querySelector('.chat-header h3');
-    chatTitle.textContent = sessionStorage.getItem('currentChat');
-
-    const chatID = getChatID(sessionStorage.getItem('currentUsername') + document.querySelector('.chat-header h3').textContent);
-
-    if(localStorage.getItem(chatID)){
-        const messages = JSON.parse(localStorage.getItem(chatID));
-        console.log(messages);
-
-        for(let m in messages.messages){
-            
-            if(messages.messages[m].content !== ""){
-                messages.messages[m].label !== sessionStorage.getItem('currentUsername') ? addSenderMessage(messages.messages[m]) : addReceiverMessage(messages.messages[m]);
-            }
-        }
-
-    }else{
-        const message = {
-            label:chatTitle.textContent,
-            content:"",
-            timestamp:new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        };
-        localStorage.setItem(chatID, JSON.stringify({
-            messages:[message]
-        }));
-    }
-
-} */
-
 const populateChatArea = (contact) => {
-    // 1. Handle Responsiveness (Mobile View)
+    // 1. Handle Responsiveness 
     const width = window.innerWidth;
     const sidebar = document.querySelector('.sidebar');
     const chatArea = document.querySelector('.chat-area');
@@ -296,8 +245,6 @@ const createChat = (chatID)=>{
 
 const addMessageToChat = (messageObj, chatID)=>{
     if(groupsToggle){
-        console.log("" + messageObj);
-        console.log("chatID ===" + chatID);
 
         let allGroups = JSON.parse(localStorage.getItem('userGroups') || '[]');
 
@@ -312,8 +259,6 @@ const addMessageToChat = (messageObj, chatID)=>{
         }
         
     }else{
-        console.log("from indi"+messageObj);
-        console.log("from indii" + chatID);
 
     const chat = JSON.parse(localStorage.getItem(chatID));
 
@@ -321,7 +266,6 @@ const addMessageToChat = (messageObj, chatID)=>{
 
     localStorage.setItem(chatID, JSON.stringify(chat));
 
-    console.log(localStorage.getItem(chatID));
     }
     
 }
@@ -345,8 +289,6 @@ const sendMessage = ()=>{
         const messageInput = document.querySelector('.message-box input');
         const message = messageInput.value.trim();
         if(message !== ''){
-            console.log(message);
-            console.log(messages);
             const messageObj = {
                 label:sessionStorage.getItem('currentUsername'),
                 content:message,
@@ -417,7 +359,7 @@ const createGroupCards = () => {
         }).join('');
         groupsToggle = true;
     } catch (error) {
-        console.error('Error loading group cards:', error);
+        
     }
 };
 

@@ -46,7 +46,6 @@ const handleSignUp = async()=>{
 
                 localStorage.setItem('allUsers', JSON.stringify(allUsernames));
 
-            alert("Sign up successful! You may sign in");
             window.location.href = 'sign-in.html';
         }
     }
