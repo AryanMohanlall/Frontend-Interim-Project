@@ -1,6 +1,8 @@
 const username = document.getElementById('username');
 const password = document.getElementById('password');
 const errorLabel = document.querySelector('.errorLabel');
+import { decryptPassword } from "./auth.js";
+
 
 
 const handleSignIn = async ()=>{
@@ -8,7 +10,7 @@ const handleSignIn = async ()=>{
     const passwordValue = password.value.trim();
     errorLabel.textContent = (usernameValue === '' ? 'Username cannot be empty' : "");
     errorLabel.textContent += (passwordValue === '' ? ' Password cannot be empty' : "");
-
+    
     if(usernameValue !== '' && passwordValue !== ''){
         let users = null;
         try {
@@ -27,12 +29,26 @@ const handleSignIn = async ()=>{
         }
 
         const user = users.users.find(u => u.username === usernameValue);
-        if(user || sessionStorage.getItem(usernameValue)){
-            const storedPassword = user ? user.password : sessionStorage.getItem(usernameValue);
-            if(storedPassword === passwordValue){
+        if(user || localStorage.getItem(usernameValue)){
+            const storedPassword = localStorage.getItem(usernameValue) ? localStorage.getItem(usernameValue) : user.password;
+            
+            if(passwordValue === await decryptPassword(storedPassword)){
                 sessionStorage.setItem('currentUsername', usernameValue);
                 sessionStorage.setItem('currentPassword', passwordValue);
                 sessionStorage.setItem('isLoggedIn', true);
+
+                let allUsernames = JSON.parse(localStorage.getItem('allUsers'));
+                
+                if (!allUsernames) {
+                    allUsernames = users.users.map(user => user.username);
+                }
+                
+                if (!allUsernames.includes(usernameValue)) {
+                    allUsernames.push(usernameValue);
+                }
+
+                localStorage.setItem('allUsers', JSON.stringify(allUsernames));
+
 
                 window.location.href = 'home.html';
             }else{
@@ -43,3 +59,5 @@ const handleSignIn = async ()=>{
         }
     }
 }
+
+document.querySelector("#sign-in").addEventListener('click', handleSignIn);

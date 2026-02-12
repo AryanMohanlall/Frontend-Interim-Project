@@ -2,11 +2,12 @@ const username = document.getElementById('username');
 const password = document.getElementById('password');
 const signInButton = document.getElementById('sign-in-button');
 const errorLabel = document.querySelector('.errorLabel');
+import { encryptPassword } from "./auth.js"
 
+// const gotoSignIn = () => {
+//     window.location.href = 'sign-in.html';
+// }
 
-const gotoSignIn = () => {
-    window.location.href = 'sign-in.html';
-}
 
 const handleSignUp = async()=>{
     const usernameValue = username.value.trim();
@@ -37,9 +38,25 @@ const handleSignUp = async()=>{
         if(user){
             errorLabel.textContent = 'Username already exists';
         }else{
-            localStorage.setItem(usernameValue, passwordValue);
-            alert("Sign up successful! You may sign in");
+            const encrypted = await encryptPassword(passwordValue);
+            localStorage.setItem(usernameValue, encrypted);
+            
+            let allUsernames = JSON.parse(localStorage.getItem('allUsers'));
+            
+            if (!allUsernames) {
+                allUsernames = users.users.map(u => u.username);
+            }
+            
+            if (!allUsernames.includes(usernameValue)) {
+                allUsernames.push(usernameValue);
+            }
+            
+            localStorage.setItem('allUsers', JSON.stringify(allUsernames));
+
+            
             window.location.href = 'sign-in.html';
         }
     }
 }
+
+document.querySelector("#sign-up").addEventListener('click', handleSignUp);

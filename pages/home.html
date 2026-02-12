@@ -11,10 +11,26 @@
     
 
     <div class="modal">
-        <a href="sign-in.html">Sign Out</a>
+        <a href="sign-in.html" onclick="handleSignOut()">Sign Out</a>
         <a href="profile.html">Profile</a>
+        <a onclick="createGroup()">Create Group</a>
         <a onclick="closeModal()">Close</a>
     </div>
+
+    <div id="createGroup" class="modal">
+    <div class="modal-content">
+        <h2>Create New Group</h2>
+        <input type="text" id="groupName" placeholder="Group Name">
+        
+        <div class="user-selection">
+
+        </div>
+
+        <button onclick="saveNewGroup()">Create Group</button>
+        <button onclick="closeGroupModal()">Cancel</button>
+    </div>
+    </div>
+
 
     <div class="banner">
         <h1>Welcome</h1>
@@ -25,80 +41,36 @@
     </div>
 
     <div class="home-container">
-        <div class="contact-list scroll-box">
-
-         <!--    <div class="contact" id="1" onclick="contactCard(this)">
-                <div class="imgFrame">
-                    <img src="../assets/images/default-profile.jpg" alt="">
-                </div>
-                <h3>Contact 1</h3>
-            </div> -->
-
-            
-
+        <div class="sidebar">
+            <div class="filter-container">
+                <button class="filter-btn active" onclick="createContactCards()" id="filterBtn">Individual</button>
+                <button class="filter-btn" onclick="createGroupCards()" id="groupsBtn">Groups</button>
+            </div>
+            <div class="contact-list scroll-box">
+            </div>
         </div>
 
         <div class="chat-area">
-
             <div class="chat-header">
                 <div class="imgFrame">
                     <img src="../assets/images/default-profile.jpg" alt="">
                 </div>
-                <h3></h3>
+                <h3>Select a contact</h3>
+                <h4 id="status"></h4>
             </div>
 
             <div class="message-log scroll-box">
-<!--            <div class="message sender">
-                    <label id="contact-title"><strong>Contact 1</strong></label>
-                    <p>
-                        Hi Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet eaque dicta debitis, animi unde accusamus quam exercitationem, dolore facere error officiis numquam, culpa aspernatur maxime laborum blanditiis perferendis nemo ipsam!
-                    </p>
-                    <label id="timestamp">20:49</label>
-                </div>
-
-                <div class="message receiver">
-                    <p>
-                        Hi Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet eaque dicta debitis, animi unde accusamus quam exercitationem, dolore facere error officiis numquam, culpa aspernatur maxime laborum blanditiis perferendis nemo ipsam!
-                    </p>
-                    <label id="timestamp">20:49</label>
-                </div>
-
-                <div class="message receiver">
-                    <p>
-                        Hi Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet eaque dicta debitis, animi unde accusamus quam exercitationem, dolore facere error officiis numquam, culpa aspernatur maxime laborum blanditiis perferendis nemo ipsam!
-                    </p>
-                    <label id="timestamp">20:49</label>
-                </div>
-
-
-                <div class="message receiver">
-                    <p>
-                        Hi Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet eaque dicta debitis, animi unde accusamus quam exercitationem, dolore facere error officiis numquam, culpa aspernatur maxime laborum blanditiis perferendis nemo ipsam!
-                    </p>
-                    <label id="timestamp">20:49</label>
-                </div>
-
-
-                <div class="message sender">
-                    <p>
-                        Hi Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet eaque dicta debitis, animi unde accusamus quam exercitationem, dolore facere error officiis numquam, culpa aspernatur maxime laborum blanditiis perferendis nemo ipsam!
-                    </p>
-                    <label id="timestamp">20:49</label>
-                </div> -->
-
             </div>
 
-            
+            <div class="message-box">
+                <input type="text" placeholder="Message...">
+                <button aria-label="Send Message" onclick="sendMessage()">
+                    <strong>></strong>
+                </button>
+            </div>
         </div>
-        
-        <div class="message-box">
-            <input type="text" placeholder="Message...">
-            <button aria-label="Send Message" onclick="sendMessage()">
-                <strong>></strong>
-            </button>
-        </div>
-
     </div>
+
 
 </body>
 </html>
