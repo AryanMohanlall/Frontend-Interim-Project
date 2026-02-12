@@ -212,7 +212,7 @@ const populateChatArea = (contact) => {
     if(!chatTitle || chatTitle === null) document.querySelector('.chat-header').style.display = "none";
 
     if (groupsToggle) {
-        // --- GROUP CHAT LOGIC ---
+
         const allGroups = JSON.parse(localStorage.getItem('userGroups') || '[]');
         const currentGroup = allGroups.find(g => g.name === targetID);
 
@@ -224,7 +224,7 @@ const populateChatArea = (contact) => {
             });
         }
     } else {
-        // --- INDIVIDUAL CHAT LOGIC ---
+
         const chatID = getChatID(currentUser + targetID);
         const chatData = JSON.parse(localStorage.getItem(chatID));
 
