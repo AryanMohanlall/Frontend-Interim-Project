@@ -205,7 +205,6 @@ const populateChatArea = (contact) => {
     document.querySelector('.chat-header .imgFrame img').src = localStorage.getItem(`userImage${targetID}`) || "../assets/images/default-profile.jpg";
     chatTitle.textContent = targetID;
 
-    // const chatStatus = document.getElementById("status")
     
     const currentUser = sessionStorage.getItem('currentUsername');
 
