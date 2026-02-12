@@ -21,8 +21,8 @@ body {
     color: white;
     position: relative;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    align-items: center;
     padding-left: 5%;
     flex-shrink: 0;
 }
@@ -45,6 +45,40 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+.banner {
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.banner img {
+    width: 85px;
+    height: 85px;
+    border-radius: 12px;
+    object-fit: cover;
+    background: white;
+    padding: 6px;
+}
+
+.banner-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.banner-text h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.banner-text h2 {
+    font-size: 1rem;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
 
 .home-container {
     display: flex;
