@@ -4,7 +4,6 @@ if(!sessionStorage.getItem('isLoggedIn')){
 
 //is typing functionality
 window.addEventListener('keydown', (event) => {
-    //alert(event);
     const currentUsername = sessionStorage.getItem('currentUsername');
     localStorage.setItem(`${currentUsername}Status`, `${currentUsername} is typing...`);
     updateIsTyping()
@@ -63,6 +62,7 @@ for (const c of onlineUsers) {
 
 
 }
+
 
 
 const createContactCards = async () => {
@@ -145,25 +145,35 @@ const addReceiverMessage = (message)=>{
     messageLog.appendChild(messageElement);
 }
 
+const addBackButton = () => {
+    const header = document.querySelector('.chat-header');
+    
+    if (document.querySelector('.back-btn')) return;
+
+    const backBtn = document.createElement('button');
+    backBtn.innerText = "<-";
+    backBtn.className = "back-btn";
+    backBtn.onclick = () => {
+        document.querySelector('.sidebar').style.display = 'flex';
+        document.querySelector('.chat-area').style.display = 'none';
+    };
+
+    header.prepend(backBtn);
+};
+
+
 const populateChatArea = (contact) => {
 
-    // Handle reponsiveness
-    if(screen.width <= 768){
-        document.querySelector('.contact-list').style.display = 'none';
-        document.querySelector('.chat-area').style.width = '100%';
-        document.querySelector('.message-box').style.width = '85%';
-        document.querySelector('.message-box').style.marginLeft = '0%'
-        document.querySelector('.chat-header .imgFrame').style.width = '10%';
-        document.querySelector('.chat-header .imgFrame').style.height = '40%';   
-    }
+    const width = window.innerWidth;
+    const sidebar = document.querySelector('.sidebar');
+    const chatArea = document.querySelector('.chat-area');
 
-    if(screen.width <= 480){
-        document.querySelector('.contact-list').style.display = 'none';
-        document.querySelector('.chat-area').style.width = '100%';
-        document.querySelector('.message-box').style.width = '85%';
-        document.querySelector('.message-box').style.marginLeft = '0%'
-        document.querySelector('.chat-header .imgFrame').style.width = '20%';   
-        document.querySelector('.chat-header .imgFrame').style.height = '50%';   
+    if (width <= 768) {
+        sidebar.style.display = 'none';
+        chatArea.style.display = 'flex';
+        chatArea.style.width = '100%';
+        
+        addBackButton(); 
     }
 
     document.querySelector('.message-log').replaceChildren();

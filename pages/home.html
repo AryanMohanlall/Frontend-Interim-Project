@@ -25,81 +25,35 @@
     </div>
 
     <div class="home-container">
-        <div class="contact-list scroll-box">
-
-         <div class="contact" id="1" onclick="contactCard(this)">
-                <div class="imgFrame">
-                    <img src="../assets/images/default-profile.jpg" alt="">
-                </div>
-                <h3>Contact 1</h3>
-                <h6>ofs</h6>
+        <div class="sidebar">
+            <div class="filter-container">
+                <button class="filter-btn active">Individual</button>
+                <button class="filter-btn">Groups</button>
             </div>
-
-            
-
+            <div class="contact-list scroll-box">
+            </div>
         </div>
 
         <div class="chat-area">
-
             <div class="chat-header">
                 <div class="imgFrame">
                     <img src="../assets/images/default-profile.jpg" alt="">
                 </div>
-                <h3></h3>
+                <h3>Select a contact</h3>
             </div>
 
             <div class="message-log scroll-box">
-<!--            <div class="message sender">
-                    <label id="contact-title"><strong>Contact 1</strong></label>
-                    <p>
-                        Hi Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet eaque dicta debitis, animi unde accusamus quam exercitationem, dolore facere error officiis numquam, culpa aspernatur maxime laborum blanditiis perferendis nemo ipsam!
-                    </p>
-                    <label id="timestamp">20:49</label>
-                </div>
-
-                <div class="message receiver">
-                    <p>
-                        Hi Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet eaque dicta debitis, animi unde accusamus quam exercitationem, dolore facere error officiis numquam, culpa aspernatur maxime laborum blanditiis perferendis nemo ipsam!
-                    </p>
-                    <label id="timestamp">20:49</label>
-                </div>
-
-                <div class="message receiver">
-                    <p>
-                        Hi Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet eaque dicta debitis, animi unde accusamus quam exercitationem, dolore facere error officiis numquam, culpa aspernatur maxime laborum blanditiis perferendis nemo ipsam!
-                    </p>
-                    <label id="timestamp">20:49</label>
-                </div>
-
-
-                <div class="message receiver">
-                    <p>
-                        Hi Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet eaque dicta debitis, animi unde accusamus quam exercitationem, dolore facere error officiis numquam, culpa aspernatur maxime laborum blanditiis perferendis nemo ipsam!
-                    </p>
-                    <label id="timestamp">20:49</label>
-                </div>
-
-
-                <div class="message sender">
-                    <p>
-                        Hi Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet eaque dicta debitis, animi unde accusamus quam exercitationem, dolore facere error officiis numquam, culpa aspernatur maxime laborum blanditiis perferendis nemo ipsam!
-                    </p>
-                    <label id="timestamp">20:49</label>
-                </div> -->
-
             </div>
 
-            
+            <div class="message-box">
+                <input type="text" placeholder="Message...">
+                <button aria-label="Send Message" onclick="sendMessage()">
+                    <strong>&gt;</strong>
+                </button>
+            </div>
         </div>
-        
-        <div class="message-box">
-            <input type="text" placeholder="Message...">
-            <button aria-label="Send Message" onclick="sendMessage()">
-                <strong>></strong>
-            </button>
-        </div>
-
     </div>
+
 
 </body>
 </html>
