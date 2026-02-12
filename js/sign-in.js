@@ -27,12 +27,19 @@ const handleSignIn = async ()=>{
         }
 
         const user = users.users.find(u => u.username === usernameValue);
-        if(user || sessionStorage.getItem(usernameValue)){
-            const storedPassword = user ? user.password : sessionStorage.getItem(usernameValue);
+        if(user || localStorage.getItem(usernameValue)){
+            const storedPassword = user ? user.password : localStorage.getItem(usernameValue);
             if(storedPassword === passwordValue){
                 sessionStorage.setItem('currentUsername', usernameValue);
                 sessionStorage.setItem('currentPassword', passwordValue);
                 sessionStorage.setItem('isLoggedIn', true);
+                const allUsernames = users.users.map(user => user.username);
+
+                if(!allUsernames.includes(usernameValue)){
+                        allUsernames.push(usernameValue);
+                }
+
+                localStorage.setItem('allUsers', JSON.stringify(allUsernames));
 
                 window.location.href = 'home.html';
             }else{
