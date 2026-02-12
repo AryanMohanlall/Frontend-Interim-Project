@@ -17,11 +17,13 @@ const openModal =()=>{
 
 
 
-addEventListener('DOMContentLoaded', ()=>{
-    const userImg = document.querySelector('img');
-    userImg.src = localStorage.getItem(`userImage${sessionStorage.getItem('currentUsername')}`) || "../assets/images/default-profile.jpg";
-    console.log(localStorage.getItem('userImage'));
-})
+addEventListener('DOMContentLoaded', ()=> {
+    const userImg = document.querySelector('.imgFrame img');
+    userImg.src =
+        localStorage.getItem(`userImage${sessionStorage.getItem('currentUsername')}`)
+        || "../assets/images/default-profile.jpg";
+});
+
 
 const changeProfileImage = () => {
     const input = document.querySelector('input');

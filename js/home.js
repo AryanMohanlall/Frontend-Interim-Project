@@ -202,16 +202,16 @@ const populateChatArea = (contact) => {
     sessionStorage.setItem('currentChat', targetID);
 
     const chatTitle = document.querySelector('.chat-header h3');
+    document.querySelector('.chat-header .imgFrame img').src = localStorage.getItem(`userImage${targetID}`) || "../assets/images/default-profile.jpg";
     chatTitle.textContent = targetID;
 
-    // const chatStatus = document.getElementById("status")
     
     const currentUser = sessionStorage.getItem('currentUsername');
 
     if(!chatTitle || chatTitle === null) document.querySelector('.chat-header').style.display = "none";
 
     if (groupsToggle) {
-        // --- GROUP CHAT LOGIC ---
+
         const allGroups = JSON.parse(localStorage.getItem('userGroups') || '[]');
         const currentGroup = allGroups.find(g => g.name === targetID);
 
@@ -223,7 +223,7 @@ const populateChatArea = (contact) => {
             });
         }
     } else {
-        // --- INDIVIDUAL CHAT LOGIC ---
+
         const chatID = getChatID(currentUser + targetID);
         const chatData = JSON.parse(localStorage.getItem(chatID));
 

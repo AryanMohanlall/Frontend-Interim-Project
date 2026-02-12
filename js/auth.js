@@ -4,7 +4,7 @@ export async function getSecretKey(password) {
   return crypto.subtle.importKey('raw', rawKey, 'AES-GCM', false, ['encrypt', 'decrypt']);
 }
 
-const MASTER_PASS = "user-secret-key";
+const MASTER_PASS = "shrek-all-day-long";
 
 export const encryptPassword = async (plain) => {
   const iv = window.crypto.getRandomValues(new Uint8Array(12));
@@ -37,7 +37,7 @@ export const decryptPassword = async (cipher) => {
     );
     return new TextDecoder().decode(decrypted);
   } catch (e) {
-    throw new Error("Decryption failed: Likely wrong password or corrupted data.");
+    return "";
   }
 };
 

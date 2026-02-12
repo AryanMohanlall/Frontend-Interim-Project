@@ -21,8 +21,8 @@ body {
     color: white;
     position: relative;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    align-items: center;
     padding-left: 5%;
     flex-shrink: 0;
 }
@@ -45,6 +45,40 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+.banner {
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.banner img {
+    width: 85px;
+    height: 85px;
+    border-radius: 12px;
+    object-fit: cover;
+    background: white;
+    padding: 6px;
+}
+
+.banner-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.banner-text h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.banner-text h2 {
+    font-size: 1rem;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
 
 .home-container {
     display: flex;
@@ -298,14 +332,13 @@ body {
 .group-member-check {
     width: 18px;
     height: 18px;
-    accent-color: #3281e9; /* Matches your brand blue */
+    accent-color: #3281e9;
 }
 
 .modal-content h2{
     color: white;
 }
 
-/* Styling the Inputs (Group Name) */
 .modal input {
     width: 100%;
     padding: 12px 16px;
@@ -329,7 +362,6 @@ body {
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
-/* Styling the Buttons */
 .modal-content button {
     width: 100%;
     height: 3.5rem;
@@ -345,7 +377,6 @@ body {
     justify-content: center;
 }
 
-/* Primary "Create" Button */
 .modal-content button:first-of-type {
     background-color: white;
     color: #0037ff;
@@ -356,7 +387,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* Secondary "Cancel" Button */
 .modal-content button:last-of-type {
     background-color: transparent;
     color: white;
