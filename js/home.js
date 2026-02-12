@@ -69,6 +69,8 @@ for (const c of onlineUsers) {
 
 const createContactCards = async () => {
     try {
+        document.querySelector("#filterBtn").classList.add('active');
+        document.querySelector("#groupsBtn").classList.remove('active');
         const response = await fetch('../db/users.json');
         const { users } = await response.json();
         const contactList = document.querySelector('.contact-list');
@@ -275,12 +277,9 @@ const populateChatArea = (contact) => {
 };
 
 
-const getChatID = (str) => {
-    console.log(str);
-        
+const getChatID = (str) => {        
     const chatId = str.split('').sort().join('');
     
-    console.log("Created chatid: " + chatId);
     return chatId;
 }
 
@@ -310,23 +309,33 @@ const addMessageToChat = (messageObj, chatID)=>{
             localStorage.setItem('userGroups', JSON.stringify(allGroups));
             
             
-        } else {
-            console.error(`Group "${chatID}" not found!`);
         }
         
     }else{
-        const chat = JSON.parse(localStorage.getItem(chatID));
-        chat.messages.push(messageObj);
+        console.log("from indi"+messageObj);
+        console.log("from indii" + chatID);
+
+    const chat = JSON.parse(localStorage.getItem(chatID));
+
+    chat.messages.push(messageObj);
+
+    localStorage.setItem(chatID, JSON.stringify(chat));
+
+    console.log(localStorage.getItem(chatID));
     }
     
 }
 
 const sendMessage = ()=>{
-        let chatID = getChatID(sessionStorage.getItem('currentUsername') + sessionStorage.getItem('currentChat'));
+        var chatID = getChatID(sessionStorage.getItem('currentUsername') + sessionStorage.getItem('currentChat'));
 
         if(groupsToggle){
             chatID = document.querySelector('.chat-header h3').innerText;
-        }else if(!localStorage.getItem(chatID)){
+        }else{
+            chatID = getChatID(sessionStorage.getItem('currentUsername') + sessionStorage.getItem('currentChat'));
+        }
+
+        if(!groupsToggle && !localStorage.getItem(chatID)){
             createChat(chatID);
         }
 
@@ -345,7 +354,6 @@ const sendMessage = ()=>{
             }
 
             addMessageToChat(messageObj, chatID);
-            //populateChatArea(sessionStorage.getItem('currentChat'));
             populateChatArea(chatID);
             messageInput.value = '';
         }
@@ -375,20 +383,11 @@ const handleSignOut = () => {
 }
 
 
-const individualFilter = ()=>{
-    document.querySelector("#filterBtn").classList.add('active');
-    document.querySelector("#groupsBtn").classList.remove('active');
-    createContactCards();
-}
-
-
-const groupsFilter = ()=>{
-    document.querySelector("#filterBtn").classList.remove('active');
-    document.querySelector("#groupsBtn").classList.add('active');
-}
-
 const createGroupCards = () => {
     try {
+        document.querySelector("#filterBtn").classList.remove('active');
+        document.querySelector("#groupsBtn").classList.add('active');
+        
         const contactList = document.querySelector('.contact-list');
         const currentUser = sessionStorage.getItem('currentUsername');
         
