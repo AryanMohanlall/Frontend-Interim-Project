@@ -25,7 +25,7 @@ const updateIsTyping = ()=>{
     const chatTitle = document.querySelector('.chat-header h3');
     const chatStatus = document.getElementById(`status`);
 
-    chatStatus.innerText = localStorage.getItem(`${chatTitle.innerText}Status`);
+    if(!groupsToggle) chatStatus.innerText = localStorage.getItem(`${chatTitle.innerText}Status`);
 
     contacts.forEach((contact) => {
         let userStatus = contact.querySelector('h6');
