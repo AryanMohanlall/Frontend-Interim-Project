@@ -264,7 +264,7 @@
     background-color: rgba(0, 55, 255, 0.9);
     z-index: 9999;
     
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -289,7 +289,9 @@
     
     margin: 10px;
 }
-
+.contact.online .imgFrame {
+    border: 2px solid green;
+}
 
 
 @media (max-width: 768px){    

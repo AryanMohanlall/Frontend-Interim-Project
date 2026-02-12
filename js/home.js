@@ -2,14 +2,39 @@ if(!sessionStorage.getItem('isLoggedIn')){
     window.location.href = 'sign-in.html';
 }
 
-addEventListener('DOMContentLoaded', ()=>{
+addEventListener('DOMContentLoaded', async ()=>{
     document.getElementById('banner-title').textContent = sessionStorage.getItem('currentUsername');
-    createContactCards();
+    await createContactCards();
+
+    const onlineUsers = JSON.parse(localStorage.getItem('online') || '[]');
+
+    const currentUser = sessionStorage.getItem('currentUsername');
+
+    if (currentUser && !onlineUsers.includes(currentUser)) {
+        onlineUsers.push(currentUser);
+    }
+
+    localStorage.setItem('online', JSON.stringify(onlineUsers));
+    updateOnlineUsers();
 });
 
 addEventListener('storage', (event)=>{
     populateChatArea(document.querySelector('.chat-header h3'));
+    updateOnlineUsers();
 })
+
+const updateOnlineUsers = () => {
+    const onlineUsers = JSON.parse(localStorage.getItem('online') || '[]');
+
+for (const c of onlineUsers) {
+    const contact = document.getElementById(c);
+    contact.classList.add('online');
+}
+
+
+}
+
+
 
 const createContactCards = async () => {
     try {
@@ -27,7 +52,8 @@ const createContactCards = async () => {
             const imgFrame = document.createElement('div');
             imgFrame.classList.add('imgFrame');
             const img = document.createElement('img');
-            img.src = '../assets/images/default-profile.jpg';
+            img.src = localStorage.getItem(`userImage${user.username}`) || '../assets/images/default-profile.jpg';
+            console.log(localStorage.getItem(`userImage${user.username}`));
             imgFrame.appendChild(img);
             
             newContact.appendChild(imgFrame);
@@ -35,7 +61,8 @@ const createContactCards = async () => {
             const h3 = document.createElement('h3');
             h3.textContent = user.username;
             newContact.appendChild(h3);
-            
+
+            const chatPreview = document.createElement('p');
             contactList.appendChild(newContact);
         }
     } catch(error) {
@@ -210,7 +237,16 @@ const openModal = ()=>{
     document.querySelector('.modal').style.display = 'flex';
 }
 
-const handleSignOut = ()=>{
+const handleSignOut = () => {
+    let newOnlineUsers = JSON.parse(localStorage.getItem('online') || '[]');
+    
+    const userToRemove = sessionStorage.getItem('currentUsername');
+    
+    if (userToRemove) {
+        newOnlineUsers = newOnlineUsers.filter(user => user !== userToRemove);        
+        localStorage.setItem('online', JSON.stringify(newOnlineUsers));
+    }
+
     sessionStorage.clear();
     window.location.href = 'sign-in.html';
 }
