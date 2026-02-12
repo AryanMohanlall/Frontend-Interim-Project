@@ -43,8 +43,8 @@
     <div class="home-container">
         <div class="sidebar">
             <div class="filter-container">
-                <button class="filter-btn active" onclick="individualFilter()" id="filterBtn">Individual</button>
-                <button class="filter-btn" onclick="groupsFilter()" id="groupsBtn">Groups</button>
+                <button class="filter-btn active" onclick="createContactCards()" id="filterBtn">Individual</button>
+                <button class="filter-btn" onclick="createGroupCards()" id="groupsBtn">Groups</button>
             </div>
             <div class="contact-list scroll-box">
             </div>
@@ -64,7 +64,7 @@
             <div class="message-box">
                 <input type="text" placeholder="Message...">
                 <button aria-label="Send Message" onclick="sendMessage()">
-                    <strong>&gt;</strong>
+                    <strong>></strong>
                 </button>
             </div>
         </div>

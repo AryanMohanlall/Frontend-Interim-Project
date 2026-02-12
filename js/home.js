@@ -2,6 +2,8 @@ if(!sessionStorage.getItem('isLoggedIn')){
     window.location.href = 'sign-in.html';
 }
 
+var groupsToggle = false;
+
 //is typing functionality
 window.addEventListener('keydown', (event) => {
     const currentUsername = sessionStorage.getItem('currentUsername');
@@ -22,7 +24,7 @@ const updateIsTyping = ()=>{
 
     contacts.forEach((contact) => {
         // Access the ID (e.g., "1")
-        console.log("Contact ID:", contact.id);
+        //console.log("Contact ID:", contact.id);
         let userStatus = contact.querySelector('h6');
         userStatus.innerText = localStorage.getItem(`${contact.id}Status`);
         
@@ -86,7 +88,7 @@ const createContactCards = async () => {
                 </div>
             `;
         }).join('');
-
+        groupsToggle = false;
     } catch(error) {
         console.error('Error loading contacts:', error);
     }
@@ -162,7 +164,7 @@ const addBackButton = () => {
 };
 
 
-const populateChatArea = (contact) => {
+/* const populateChatArea = (contact) => {
 
     const width = window.innerWidth;
     const sidebar = document.querySelector('.sidebar');
@@ -207,7 +209,71 @@ const populateChatArea = (contact) => {
         }));
     }
 
-}
+} */
+
+const populateChatArea = (contact) => {
+    // 1. Handle Responsiveness (Mobile View)
+    const width = window.innerWidth;
+    const sidebar = document.querySelector('.sidebar');
+    const chatArea = document.querySelector('.chat-area');
+
+    if (width <= 768) {
+        sidebar.style.display = 'none';
+        chatArea.style.display = 'flex';
+        chatArea.style.width = '100%';
+        
+        if (typeof addBackButton === "function") addBackButton(); 
+    }
+
+    const messageLog = document.querySelector('.message-log');
+    messageLog.replaceChildren();
+
+    const targetID = contact.id || sessionStorage.getItem('currentChat');
+    sessionStorage.setItem('currentChat', targetID);
+
+    const chatTitle = document.querySelector('.chat-header h3');
+    chatTitle.textContent = targetID;
+    
+    const currentUser = sessionStorage.getItem('currentUsername');
+
+    if (groupsToggle) {
+        // --- GROUP CHAT LOGIC ---
+        const allGroups = JSON.parse(localStorage.getItem('userGroups') || '[]');
+        const currentGroup = allGroups.find(g => g.name === targetID);
+
+        if (currentGroup && currentGroup.messages) {
+            currentGroup.messages.forEach(msg => {
+                if (msg.content.trim() !== "") {
+                    msg.label !== currentUser ? addSenderMessage(msg) : addReceiverMessage(msg);
+                }
+            });
+        }
+    } else {
+        // --- INDIVIDUAL CHAT LOGIC ---
+        const chatID = getChatID(currentUser + targetID);
+        const chatData = JSON.parse(localStorage.getItem(chatID));
+
+        if (chatData && chatData.messages) {
+            chatData.messages.forEach(msg => {
+                if (msg.content.trim() !== "") {
+                    msg.label !== currentUser ? addSenderMessage(msg) : addReceiverMessage(msg);
+                }
+            });
+        } else {
+            const initialData = {
+                messages: [{
+                    label: targetID,
+                    content: "",
+                    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                }]
+            };
+            localStorage.setItem(chatID, JSON.stringify(initialData));
+        }
+    }
+    
+    messageLog.scrollTop = messageLog.scrollHeight;
+};
+
 
 const getChatID = (str) => {
     console.log(str);
@@ -230,17 +296,40 @@ const createChat = (chatID)=>{
 }
 
 const addMessageToChat = (messageObj, chatID)=>{
-    const chat = JSON.parse(localStorage.getItem(chatID));
-    chat.messages.push(messageObj);
-    localStorage.setItem(chatID, JSON.stringify(chat));
+    if(groupsToggle){
+        console.log("" + messageObj);
+        console.log("chatID ===" + chatID);
+
+        let allGroups = JSON.parse(localStorage.getItem('userGroups') || '[]');
+
+        const groupIndex = allGroups.findIndex(group => group.name === chatID);
+
+        if (groupIndex !== -1) {
+            allGroups[groupIndex].messages.push(messageObj);
+
+            localStorage.setItem('userGroups', JSON.stringify(allGroups));
+            
+            
+        } else {
+            console.error(`Group "${chatID}" not found!`);
+        }
+        
+    }else{
+        const chat = JSON.parse(localStorage.getItem(chatID));
+        chat.messages.push(messageObj);
+    }
+    
 }
 
 const sendMessage = ()=>{
-        const chatID = getChatID(sessionStorage.getItem('currentUsername') + sessionStorage.getItem('currentChat'));
+        let chatID = getChatID(sessionStorage.getItem('currentUsername') + sessionStorage.getItem('currentChat'));
 
-        if(!localStorage.getItem(chatID)){
+        if(groupsToggle){
+            chatID = document.querySelector('.chat-header h3').innerText;
+        }else if(!localStorage.getItem(chatID)){
             createChat(chatID);
         }
+
             
         const messages = JSON.parse(localStorage.getItem(chatID));
 
@@ -256,7 +345,8 @@ const sendMessage = ()=>{
             }
 
             addMessageToChat(messageObj, chatID);
-            populateChatArea(sessionStorage.getItem('currentChat'));
+            //populateChatArea(sessionStorage.getItem('currentChat'));
+            populateChatArea(chatID);
             messageInput.value = '';
         }
 }
@@ -297,9 +387,41 @@ const groupsFilter = ()=>{
     document.querySelector("#groupsBtn").classList.add('active');
 }
 
-const createGroupCards = ()=>{
-    
-}
+const createGroupCards = () => {
+    try {
+        const contactList = document.querySelector('.contact-list');
+        const currentUser = sessionStorage.getItem('currentUsername');
+        
+        const allGroups = JSON.parse(localStorage.getItem('userGroups') || '[]');
+
+        const myGroups = allGroups.filter(group => group.members.includes(currentUser));
+
+        if (myGroups.length === 0) {
+            contactList.innerHTML = '<p style="color:white; margin-top:20px;">No groups found.</p>';
+            return;
+        }
+
+        contactList.innerHTML = myGroups.map(group => {
+            const groupImg = '../assets/images/default-group.png'; 
+            
+            return `
+                <div class="contact group-card" id="${group.name}" onclick="populateChatArea(this)">
+                    <div class="imgFrame">
+                        <img src="${groupImg}" alt="${group.name}">
+                    </div>
+                    <div class="contact-info">
+                        <h3>${group.name}</h3>
+                        <h6 id="status-${group.name}">${group.members.length} members</h6>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        groupsToggle = true;
+    } catch (error) {
+        console.error('Error loading group cards:', error);
+    }
+};
+
 
 const saveNewGroup = () => {
     const groupName = document.querySelector('#groupName').value.trim();
