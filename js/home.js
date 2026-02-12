@@ -2,9 +2,9 @@ if(!sessionStorage.getItem('isLoggedIn')){
     window.location.href = 'sign-in.html';
 }
 
-addEventListener('DOMContentLoaded', ()=>{
+addEventListener('DOMContentLoaded', async ()=>{
     document.getElementById('banner-title').textContent = sessionStorage.getItem('currentUsername');
-    createContactCards();
+    await createContactCards();
 
     const onlineUsers = JSON.parse(localStorage.getItem('online') || '[]');
 
@@ -15,6 +15,7 @@ addEventListener('DOMContentLoaded', ()=>{
     }
 
     localStorage.setItem('online', JSON.stringify(onlineUsers));
+    updateOnlineUsers();
 });
 
 addEventListener('storage', (event)=>{
@@ -24,20 +25,13 @@ addEventListener('storage', (event)=>{
 
 const updateOnlineUsers = () => {
     const onlineUsers = JSON.parse(localStorage.getItem('online') || '[]');
-    
-    const contacts = document.querySelectorAll('.contact-list .contact');
 
-    contacts.forEach(contact => {
-        const contactId = contact.id;
-        const imgFrame = contact.querySelector('.imgFrame');
+for (const c of onlineUsers) {
+    const contact = document.getElementById(c);
+    contact.classList.add('online');
+}
 
-        if (onlineUsers.includes(contactId)) {
-            console.log(contactId + " is online");
-            imgFrame.style.border = '2px solid green';
-        } else {
-            imgFrame.style.border = 'none';
-        }
-    });
+
 }
 
 
@@ -242,7 +236,16 @@ const openModal = ()=>{
     document.querySelector('.modal').style.display = 'flex';
 }
 
-const handleSignOut = ()=>{
+const handleSignOut = () => {
+    let newOnlineUsers = JSON.parse(localStorage.getItem('online') || '[]');
+    
+    const userToRemove = sessionStorage.getItem('currentUsername');
+    
+    if (userToRemove) {
+        newOnlineUsers = newOnlineUsers.filter(user => user !== userToRemove);        
+        localStorage.setItem('online', JSON.stringify(newOnlineUsers));
+    }
+
     sessionStorage.clear();
     window.location.href = 'sign-in.html';
 }

@@ -289,7 +289,9 @@
     
     margin: 10px;
 }
-
+.contact.online .imgFrame {
+    border: 2px solid green;
+}
 
 
 @media (max-width: 768px){    
